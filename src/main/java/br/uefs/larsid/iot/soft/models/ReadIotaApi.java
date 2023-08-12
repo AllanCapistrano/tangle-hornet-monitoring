@@ -57,8 +57,6 @@ public class ReadIotaApi implements Runnable {
     List<String> transactionsInJson = new ArrayList<>();
 
     for (String hashTransaction : this.getHashesByTag(tag)) {
-      logger.info(hashTransaction); // TODO: Remover
-
       String transaction = this.getTransactionByHash(hashTransaction);
 
       transactionsInJson.add(transaction);
@@ -125,7 +123,9 @@ public class ReadIotaApi implements Runnable {
       try {
         long start = System.currentTimeMillis();
 
-        this.findFirstTransactionByTag(this.tag);
+        for (String transactionString : this.findTransactionsByTag(this.tag)) {
+          logger.info(transactionString);
+        }
 
         long end = System.currentTimeMillis();
         logger.info("API Response time (ms): " + (end - start));
