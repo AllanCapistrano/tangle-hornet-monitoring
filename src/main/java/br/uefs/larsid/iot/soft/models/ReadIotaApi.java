@@ -76,6 +76,7 @@ public class ReadIotaApi implements Runnable {
         jsonObject.get("group").getAsString(),
         TransactionType.REP_EVALUATION,
         jsonObject.get("value").getAsInt(),
+        jsonObject.get("createdAt").getAsLong(),
         jsonObject.get("publishedAt").getAsLong()
       );
 
