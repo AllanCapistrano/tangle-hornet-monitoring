@@ -15,7 +15,6 @@ public class Transaction {
     this.source = source;
     this.type = type;
     this.group = group;
-    this.createdAt = System.currentTimeMillis();
   }
 
   public final String getSource() {
@@ -32,6 +31,10 @@ public class Transaction {
 
   public final long getCreatedAt() {
     return this.createdAt;
+  }
+
+  public void setCreatedAt(long createdAt) {
+    this.createdAt = createdAt;
   }
 
   public final void setPublishedAt(long publishedAt) {
