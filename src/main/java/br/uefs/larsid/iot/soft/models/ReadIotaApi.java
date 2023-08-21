@@ -1,5 +1,9 @@
 package br.uefs.larsid.iot.soft.models;
 
+import br.uefs.larsid.iot.soft.models.enums.TransactionType;
+import br.uefs.larsid.iot.soft.models.transactions.Evaluation;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -52,17 +56,29 @@ public class ReadIotaApi implements Runnable {
    * @return List<String>
    * @throws ArgumentException
    */
-  public List<String> findTransactionsByTag(String tag)
+  public List<Evaluation> findTransactionsByTag(String tag)
     throws ArgumentException {
-    List<String> transactionsInJson = new ArrayList<>();
+    List<Evaluation> transactions = new ArrayList<>();
 
     for (String hashTransaction : this.getHashesByTag(tag)) {
-      String transaction = this.getTransactionByHash(hashTransaction);
+      JsonObject transactionInJson = new Gson()
+        .fromJson(this.getTransactionByHash(hashTransaction), JsonObject.class);
 
-      transactionsInJson.add(transaction);
+      // TODO: não está conseguindo converter para JSON corretamente
+
+      logger.warning(transactionInJson.get("source").getAsString());
+
+      Evaluation transaction = new Evaluation(
+        transactionInJson.get("source").getAsString(),
+        transactionInJson.get("group").getAsString(),
+        TransactionType.REP_EVALUATION,
+        transactionInJson.get("value").getAsInt()
+      );
+
+      transactions.add(transaction);
     }
 
-    return transactionsInJson;
+    return transactions;
   }
 
   /**
@@ -121,10 +137,17 @@ public class ReadIotaApi implements Runnable {
   public void run() {
     while (!this.readApi.isInterrupted()) {
       try {
+        // Gson gson = new Gson();
+        // Evaluation transactionn = gson.fromJson(
+        //   "{\"value\":0}",
+        //   Evaluation.class
+        // );
+        // logger.info(transactionn.toString());
+
         long start = System.currentTimeMillis();
 
-        for (String transactionString : this.findTransactionsByTag(this.tag)) {
-          logger.info(transactionString);
+        for (Evaluation transaction : this.findTransactionsByTag(this.tag)) {
+          logger.info(transaction.toString());
         }
 
         long end = System.currentTimeMillis();
