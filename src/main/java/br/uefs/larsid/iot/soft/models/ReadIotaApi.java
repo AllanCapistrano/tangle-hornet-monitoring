@@ -2,8 +2,10 @@ package br.uefs.larsid.iot.soft.models;
 
 import br.uefs.larsid.iot.soft.models.enums.TransactionType;
 import br.uefs.larsid.iot.soft.models.transactions.Evaluation;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -53,7 +55,7 @@ public class ReadIotaApi implements Runnable {
    * Obtém todas as transações presentes na rede a partir de uma TAG.
    *
    * @param tag String - TAG que se deseja consultar
-   * @return List<String>
+   * @return List<Evaluation>
    * @throws ArgumentException
    */
   public List<Evaluation> findTransactionsByTag(String tag)
@@ -61,18 +63,20 @@ public class ReadIotaApi implements Runnable {
     List<Evaluation> transactions = new ArrayList<>();
 
     for (String hashTransaction : this.getHashesByTag(tag)) {
-      JsonObject transactionInJson = new Gson()
-        .fromJson(this.getTransactionByHash(hashTransaction), JsonObject.class);
+      String temp = this.getTransactionByHash(hashTransaction);
 
-      // TODO: não está conseguindo converter para JSON corretamente
+      JsonParser jsonParser = new JsonParser();
+      JsonReader reader = new JsonReader(new StringReader(temp));
+      reader.setLenient(true);
 
-      logger.warning(transactionInJson.get("source").getAsString());
+      JsonObject jsonObject = jsonParser.parse(reader).getAsJsonObject();
 
       Evaluation transaction = new Evaluation(
-        transactionInJson.get("source").getAsString(),
-        transactionInJson.get("group").getAsString(),
+        jsonObject.get("source").getAsString(),
+        jsonObject.get("group").getAsString(),
         TransactionType.REP_EVALUATION,
-        transactionInJson.get("value").getAsInt()
+        jsonObject.get("value").getAsInt(),
+        jsonObject.get("publishedAt").getAsLong()
       );
 
       transactions.add(transaction);
