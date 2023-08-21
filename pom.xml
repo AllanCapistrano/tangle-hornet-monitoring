@@ -44,34 +44,17 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-        <!-- <dependency>
-            <groupId>org.zeromq</groupId>
-            <artifactId>jeromq</artifactId>
-            <version>0.5.2</version>
-            <type>jar</type>
-        </dependency> -->
         <dependency>
             <groupId>com.github.iotaledger.iota-java</groupId>
             <artifactId>jota</artifactId>
             <version>1.0.0-beta8</version>
             <classifier>jar-with-dependencies</classifier>
         </dependency>
-        <!-- <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20200518</version>
-            <scope>compile</scope>
-        </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.9.0</version>
         </dependency>
-        <dependency>
-            <groupId>com.opencsv</groupId>
-            <artifactId>opencsv</artifactId>
-            <version>4.1</version>
-        </dependency> -->
     </dependencies>
     <build>
         <plugins>
