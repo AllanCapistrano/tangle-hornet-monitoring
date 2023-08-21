@@ -10,9 +10,11 @@ public class Evaluation extends Transaction {
     String source,
     String target,
     TransactionType type,
-    int value
+    int value,
+    long publishedAt
   ) {
     super(source, target, type);
+    this.setPublishedAt(publishedAt);
     this.value = value;
   }
 
@@ -25,14 +27,15 @@ public class Evaluation extends Transaction {
   }
 
   @Override
-  public String toString() { // TODO: melhorar exibição
-    return new StringBuilder("Transaction: ")
-      .append(this.getValue())
-      .append(this.getSource())
-      .append(this.getGroup())
-      .append(this.getType())
-      .append(this.getCreatedAt())
-      .append(this.getPublishedAt())
-      .toString();
+  public String toString() {
+    return String.format(
+      "Transaction: value: %s, source: %s, target: %s, type: %s, createdAt: %d, publishedAt: %d",
+      this.getValue(),
+      this.getSource(),
+      this.getTarget(),
+      this.getType(),
+      this.getCreatedAt(),
+      this.getPublishedAt()
+    );
   }
 }
