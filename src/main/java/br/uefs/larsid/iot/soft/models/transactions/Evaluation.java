@@ -11,9 +11,11 @@ public class Evaluation extends Transaction {
     String target,
     TransactionType type,
     int value,
+    long createdAt,
     long publishedAt
   ) {
     super(source, target, type);
+    this.setCreatedAt(createdAt);
     this.setPublishedAt(publishedAt);
     this.value = value;
   }
