@@ -15,8 +15,8 @@ public class CLI {
     return getArgInList("-apt", args);
   }
 
-  public static Optional<String> getTag(String... args) {
-    return getArgInList("-tag", args);
+  public static Optional<String> getIndex(String... args) {
+    return getArgInList("-idx", args);
   }
 
   public static boolean hasParam(String arg, String... args) {

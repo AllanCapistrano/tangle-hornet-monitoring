@@ -20,7 +20,7 @@ public class Main {
 
   /*----------------------------- Properties ---------------------------------*/
   private static String apiPort;
-  private static String tag;
+  private static String index;
   /*--------------------------------------------------------------------------*/
 
   private static final Logger logger = Logger.getLogger(Main.class.getName());
@@ -30,7 +30,7 @@ public class Main {
 
     readProperties(args);
 
-    new LedgerReader(PROTOCOL, URL, Integer.parseInt(apiPort), tag, false);
+    new LedgerReader(PROTOCOL, URL, Integer.parseInt(apiPort), index, false);
   }
 
   /**
@@ -55,7 +55,7 @@ public class Main {
 
       apiPort = CLI.getApiPort(args).orElse(props.getProperty("apiPort"));
 
-      tag = CLI.getTag(args).orElse(props.getProperty("tag"));
+      index = CLI.getIndex(args).orElse(props.getProperty("index"));
     } catch (IOException ex) {
       logger.warning("Sorry, unable to find tangle-monitor.properties.");
     }

@@ -6,7 +6,7 @@ RUN wget https://github.com/AllanCapistrano/tangle-hornet-api/releases/download/
 ENV API_PORT=3000 \
     NODE_URL=127.0.0.1 \
     NODE_PORT=14265 \
-    TAG=clientTag
+    INDEX=clientIndex
 
 ADD target/tangle-reader-1.0.0-jar-with-dependencies.jar bin/tangle-reader-1.0.0-jar-with-dependencies.jar
 ADD tangle-hornet-config.sh /tangle-hornet-config.sh
