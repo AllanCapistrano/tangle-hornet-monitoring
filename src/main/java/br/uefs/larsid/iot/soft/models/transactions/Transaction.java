@@ -13,6 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**
+ *
+ * @author Allan Capistrano, Uellington Damasceno
+ * @version 1.1.0
+ */
 public class Transaction {
 
   private final String source;
@@ -51,9 +56,7 @@ public class Transaction {
 
     reader.setLenient(true);
 
-    JsonParser jsonParser = new JsonParser();
-
-    JsonObject jsonObject = jsonParser.parse(reader).getAsJsonObject();
+    JsonObject jsonObject = JsonParser.parseReader(reader).getAsJsonObject();
 
     String type = jsonObject.get("type").getAsString();
     Gson gson = new Gson();
@@ -61,27 +64,23 @@ public class Transaction {
     reader = new JsonReader(new StringReader(transactionJSON));
     reader.setLenient(true);
 
-    // if (type.equals(TransactionType.LB_ENTRY.name())) {
-    //   return gson.fromJson(reader, Status.class);
-    // } else if (type.equals(TransactionType.LB_ENTRY_REPLY.name())) {
-    //   return gson.fromJson(reader, LBReply.class);
-    // } else if (type.equals(TransactionType.LB_REPLY.name())) {
-    //   return gson.fromJson(reader, Reply.class);
-    // } else if (type.equals(TransactionType.LB_REQUEST.name())) {
-    //   return gson.fromJson(reader, Request.class);
-    // } else if (type.equals(TransactionType.LB_STATUS.name())) {
-    //   return gson.fromJson(reader, Status.class);
-    // } else if (type.equals(TransactionType.REP_EVALUATION.name())) {
-    //   return gson.fromJson(reader, Evaluation.class);
-    // } else {
-    //   return gson.fromJson(reader, LBDevice.class);
-    // }
-
-    if (type.equals(TransactionType.REP_EVALUATION.name())) {
+    if (type.equals(TransactionType.LB_ENTRY.name())) {
+      return gson.fromJson(reader, Status.class);
+    } else if (type.equals(TransactionType.LB_ENTRY_REPLY.name())) {
+      return gson.fromJson(reader, LBReply.class);
+    } else if (type.equals(TransactionType.LB_REPLY.name())) {
+      return gson.fromJson(reader, Reply.class);
+    } else if (type.equals(TransactionType.LB_REQUEST.name())) {
+      return gson.fromJson(reader, Request.class);
+    } else if (type.equals(TransactionType.LB_STATUS.name())) {
+      return gson.fromJson(reader, Status.class);
+    } else if (type.equals(TransactionType.LB_DEVICE.name())) {
+      return gson.fromJson(reader, LBDevice.class);
+    } else if (type.equals(TransactionType.REP_EVALUATION.name())) {
       return gson.fromJson(reader, Evaluation.class);
+    } else {
+      return null;
     }
-
-    return null;
   }
 
   /**
