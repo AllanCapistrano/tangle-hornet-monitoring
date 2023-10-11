@@ -24,13 +24,6 @@
         <jacoco.unit-tests.limit.method-complexity>5</jacoco.unit-tests.limit.method-complexity>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -43,12 +36,6 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.iotaledger.iota-java</groupId>
-            <artifactId>jota</artifactId>
-            <version>1.0.0-beta8</version>
-            <classifier>jar-with-dependencies</classifier>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
