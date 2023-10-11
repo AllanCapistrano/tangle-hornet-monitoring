@@ -1,6 +1,6 @@
 package br.uefs.larsid.iot.soft;
 
-import br.uefs.larsid.iot.soft.models.ReadIotaApi;
+import br.uefs.larsid.iot.soft.models.LedgerReader;
 import br.uefs.larsid.iot.soft.utils.CLI;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,7 +27,7 @@ public class Main {
 
     readProperties(args);
 
-    new ReadIotaApi(protocol, url, Integer.parseInt(port), tag);
+    new LedgerReader(protocol, url, Integer.parseInt(port), tag, false);
   }
 
   /**
