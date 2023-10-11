@@ -10,16 +10,8 @@ import java.util.Optional;
 
 public class CLI {
 
-  public static Optional<String> getProtocol(String... args) {
-    return getArgInList("-ptc", args);
-  }
-
-  public static Optional<String> getURL(String... args) {
-    return getArgInList("-url", args);
-  }
-
-  public static Optional<String> getPort(String... args) {
-    return getArgInList("-prt", args);
+  public static Optional<String> getApiPort(String... args) {
+    return getArgInList("-apt", args);
   }
 
   public static Optional<String> getTag(String... args) {
