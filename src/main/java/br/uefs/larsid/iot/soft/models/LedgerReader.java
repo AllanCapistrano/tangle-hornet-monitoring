@@ -17,8 +17,6 @@ import java.util.List;
 // import java.util.Set;
 import java.util.logging.Logger;
 
-import org.iota.jota.error.ArgumentException;
-
 /**
  * @author Allan Capistrano
  */
@@ -190,8 +188,6 @@ public class LedgerReader implements Runnable {
         logger.info("API Response time (ms): " + (end - start));
 
         Thread.sleep(SLEEP);
-      } catch (ArgumentException ae) {
-        logger.warning(ae.getStackTrace().toString());
       } catch (InterruptedException ie) {
         logger.warning(ie.getStackTrace().toString());
       }
