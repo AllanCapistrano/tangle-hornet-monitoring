@@ -1,5 +1,6 @@
 package br.uefs.larsid.iot.soft.utils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 /**
@@ -23,11 +24,11 @@ public class CLI {
   }
 
   private static Optional<String> getArgInList(String arg, String... args) {
-    List<String> largs = Arrays.asList(args);
+    List<String> largs = new ArrayList<>(Arrays.asList(args));
     int index = largs.indexOf(arg);
 
-    return (Optional<String>) (
-      (index == -1) ? Optional.empty() : Optional.of(largs.get(index + 1))
-    );
+    return index != -1 && index < largs.size() - 1
+      ? Optional.of(largs.get(index + 1))
+      : Optional.empty();
   }
 }
