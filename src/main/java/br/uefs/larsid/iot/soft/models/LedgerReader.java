@@ -171,13 +171,6 @@ public class LedgerReader implements Runnable {
   public void run() {
     while (!this.ledgerReader.isInterrupted()) {
       try {
-        // Gson gson = new Gson();
-        // Evaluation transactionn = gson.fromJson(
-        //   "{\"value\":0}",
-        //   Evaluation.class
-        // );
-        // logger.info(transactionn.toString());
-
         long start = System.currentTimeMillis();
 
         for (Transaction transaction : this.getTransactionsByIndex(this.index)) {
