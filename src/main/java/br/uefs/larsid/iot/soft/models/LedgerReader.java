@@ -3,7 +3,6 @@ package br.uefs.larsid.iot.soft.models;
 import br.uefs.larsid.iot.soft.models.tangle.Payload;
 import br.uefs.larsid.iot.soft.models.transactions.Evaluation;
 import br.uefs.larsid.iot.soft.models.transactions.Transaction;
-// import br.uefs.larsid.iot.soft.services.ILedgerSubscriber;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,10 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-// import java.util.HashMap;
 import java.util.List;
-// import java.util.Map;
-// import java.util.Set;
 import java.util.logging.Logger;
 
 /**
@@ -32,8 +28,6 @@ public class LedgerReader implements Runnable {
   private final String index;
   private boolean debugModeValue;
   private String urlApi;
-  // private Thread DLTInboundMonitor;
-  // private final Map<String, Set<ILedgerSubscriber>> topics;
 
   private static final Logger logger = Logger.getLogger(
     LedgerReader.class.getName()
@@ -47,7 +41,6 @@ public class LedgerReader implements Runnable {
     boolean debugModeValue
   ) {
     this.urlApi = String.format("%s://%s:%s", protocol, url, port);
-    // this.topics = new HashMap<String, Set<ILedgerSubscriber>>();
     this.debugModeValue = debugModeValue;
     this.index = index;
 
@@ -173,7 +166,14 @@ public class LedgerReader implements Runnable {
       try {
         long start = System.currentTimeMillis();
 
-        for (Transaction transaction : this.getTransactionsByIndex(this.index)) {
+        List<Transaction> transactions =
+          this.getTransactionsByIndex(this.index);
+
+        transactions.sort((t1, t2) ->
+          Long.compare(t1.getCreatedAt(), t2.getCreatedAt())
+        );
+
+        for (Transaction transaction : transactions) {
           logger.info(((Evaluation) transaction).toString());
         }
 
