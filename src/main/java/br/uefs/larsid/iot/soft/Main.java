@@ -1,6 +1,6 @@
 package br.uefs.larsid.iot.soft;
 
-import br.uefs.larsid.iot.soft.models.ReadIotaApi;
+import br.uefs.larsid.iot.soft.models.LedgerReader;
 import br.uefs.larsid.iot.soft.utils.CLI;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,10 +13,13 @@ import java.util.logging.Logger;
  */
 public class Main {
 
-  /*---------------------------------Properties-------------------------------*/
-  private static String protocol;
-  private static String url;
-  private static String port;
+  /*----------------------------- Constants ----------------------------------*/
+  private static String PROTOCOL = "http";
+  private static String URL = "127.0.0.1";
+  /*--------------------------------------------------------------------------*/
+
+  /*----------------------------- Properties ---------------------------------*/
+  private static String apiPort;
   private static String tag;
   /*--------------------------------------------------------------------------*/
 
@@ -27,7 +30,7 @@ public class Main {
 
     readProperties(args);
 
-    new ReadIotaApi(protocol, url, Integer.parseInt(port), tag);
+    new LedgerReader(PROTOCOL, URL, Integer.parseInt(apiPort), tag, false);
   }
 
   /**
@@ -50,11 +53,7 @@ public class Main {
       Properties props = new Properties();
       props.load(input);
 
-      protocol = CLI.getProtocol(args).orElse(props.getProperty("protocol"));
-
-      url = CLI.getURL(args).orElse(props.getProperty("url"));
-
-      port = CLI.getPort(args).orElse(props.getProperty("port"));
+      apiPort = CLI.getApiPort(args).orElse(props.getProperty("apiPort"));
 
       tag = CLI.getTag(args).orElse(props.getProperty("tag"));
     } catch (IOException ex) {
