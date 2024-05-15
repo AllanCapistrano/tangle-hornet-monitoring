@@ -1,8 +1,10 @@
 package br.uefs.larsid.iot.soft.models;
 
+import br.uefs.larsid.iot.soft.models.enums.TransactionType;
 import br.uefs.larsid.iot.soft.models.tangle.Payload;
 import br.uefs.larsid.iot.soft.models.transactions.Evaluation;
 import br.uefs.larsid.iot.soft.models.transactions.Transaction;
+import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -97,6 +99,27 @@ public class LedgerReader implements Runnable {
       if (debugModeValue) {
         logger.severe(ioe.getMessage());
       }
+    } catch (NullPointerException npe) {
+      Gson gson = new Gson();
+
+      Transaction transaction = new Evaluation(
+        "fakeSource",
+        "fakeTarget",
+        TransactionType.REP_EVALUATION,
+        0,
+        0,
+        0
+      );
+
+      String transactionJson = gson.toJson(transaction);
+
+      LedgerWriter ledgerWriter = new LedgerWriter(
+        this.urlApi,
+        this.index,
+        this.debugModeValue
+      );
+
+      ledgerWriter.createMessage(this.index, transactionJson);
     }
 
     return transactions;
@@ -178,7 +201,7 @@ public class LedgerReader implements Runnable {
         }
 
         long end = System.currentTimeMillis();
-        logger.info("API Response time (ms): " + (end - start));
+        logger.info("API read operation response time (ms): " + (end - start));
 
         Thread.sleep(SLEEP);
       } catch (InterruptedException ie) {
