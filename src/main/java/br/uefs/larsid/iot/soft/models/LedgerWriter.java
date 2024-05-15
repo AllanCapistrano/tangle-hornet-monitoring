@@ -1,6 +1,9 @@
 package br.uefs.larsid.iot.soft.models;
 
+import br.uefs.larsid.iot.soft.models.enums.TransactionType;
+import br.uefs.larsid.iot.soft.models.transactions.Evaluation;
 import br.uefs.larsid.iot.soft.models.transactions.IndexTransaction;
+import br.uefs.larsid.iot.soft.models.transactions.Transaction;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -21,6 +24,7 @@ public class LedgerWriter implements Runnable {
   /*-------------------------Constantes---------------------------------------*/
   private static final long SLEEP = 5000;
   private static final String ENDPOINT = "message";
+  private static final String INDEX = "ledgerWriter";
   /*--------------------------------------------------------------------------*/
 
   private Thread ledgerWriter;
@@ -130,6 +134,18 @@ public class LedgerWriter implements Runnable {
     while (!this.ledgerWriter.isInterrupted()) {
       try {
         long start = System.currentTimeMillis();
+
+        Transaction transaction = new Evaluation(
+          "fakeSource",
+          "fakeTarget",
+          TransactionType.REP_EVALUATION,
+          0,
+          start,
+          start
+        );
+
+        this.put(new IndexTransaction(INDEX, transaction));
+
         IndexTransaction indexTransaction = this.DLTOutboundBuffer.take();
 
         indexTransaction
@@ -140,7 +156,7 @@ public class LedgerWriter implements Runnable {
 
         this.createMessage(indexTransaction.getIndex(), transactionJson);
         long end = System.currentTimeMillis();
-        logger.info("API Response time (ms): " + (end - start));
+        logger.info("API write operation response time (ms): " + (end - start));
 
         Thread.sleep(SLEEP);
       } catch (InterruptedException ex) {
