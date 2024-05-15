@@ -3,20 +3,24 @@ package br.uefs.larsid.iot.soft.utils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+
 /**
  *
  * @author Allan Capistrano
  */
-import java.util.Optional;
-
 public class CLI {
 
   public static Optional<String> getApiPort(String... args) {
     return getArgInList("-apt", args);
   }
 
-  public static Optional<String> getIndex(String... args) {
-    return getArgInList("-idx", args);
+  public static Optional<String> getReadIndex(String... args) {
+    return getArgInList("-ridx", args);
+  }
+
+  public static Optional<String> getWriteIndex(String... args) {
+    return getArgInList("-widx", args);
   }
 
   public static boolean hasParam(String arg, String... args) {
