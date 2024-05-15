@@ -24,12 +24,12 @@ public class LedgerWriter implements Runnable {
   /*-------------------------Constantes---------------------------------------*/
   private static final long SLEEP = 5000;
   private static final String ENDPOINT = "message";
-  private static final String INDEX = "ledgerWriter";
   /*--------------------------------------------------------------------------*/
 
   private Thread ledgerWriter;
   private boolean debugModeValue;
   private String urlApi;
+  private final String index;
   private final BlockingQueue<IndexTransaction> DLTOutboundBuffer;
 
   private static final Logger logger = Logger.getLogger(
@@ -41,9 +41,11 @@ public class LedgerWriter implements Runnable {
     String url,
     int port,
     int bufferSize,
+    String index,
     boolean debugModeValue
   ) {
     this.urlApi = String.format("%s://%s:%s", protocol, url, port);
+    this.index = index;
     this.debugModeValue = debugModeValue;
     this.DLTOutboundBuffer =
       new ArrayBlockingQueue<IndexTransaction>(bufferSize);
@@ -144,7 +146,7 @@ public class LedgerWriter implements Runnable {
           start
         );
 
-        this.put(new IndexTransaction(INDEX, transaction));
+        this.put(new IndexTransaction(this.index, transaction));
 
         IndexTransaction indexTransaction = this.DLTOutboundBuffer.take();
 
