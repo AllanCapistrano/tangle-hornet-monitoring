@@ -57,6 +57,18 @@ public class LedgerWriter implements Runnable {
     }
   }
 
+  public LedgerWriter(
+    String urlApi,
+    String index,
+    boolean debugModeValue
+  ) {
+    this.urlApi = urlApi;
+    this.index = index;
+    this.debugModeValue = debugModeValue;
+    this.DLTOutboundBuffer =
+      new ArrayBlockingQueue<IndexTransaction>(128);
+  }
+
   /**
    * Adiciona uma mensagem para ser publicada na Tangle Hornet.
    *
@@ -73,7 +85,7 @@ public class LedgerWriter implements Runnable {
    * @param index String - Índice da mensagem.
    * @param data String - Conteúdo da mensagem.
    */
-  private void createMessage(String index, String data) {
+  public void createMessage(String index, String data) {
     try {
       URL url = new URL(String.format("%s/%s", this.urlApi, ENDPOINT));
 
