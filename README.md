@@ -1,4 +1,4 @@
-# tangle-reader
+# tangle-hornet-monitoring
 Faz a leitura e monitora o tempo de resposta em milisegundos (ms) de consultas a transações na *Tangle Hornet* a partir de um índice.
 
 ## Como utilizar
@@ -49,8 +49,6 @@ Você pode utilizar a nossa imagem que está disponível no [Docker Hub](https:/
 | NODE_PORT | Porta do nó da *Tangle Hornet* |	14265
 | READ_INDEX | Índice que será utilizada para as consultas de leitura na *Tangle Hornet*. | readIndex |
 | WRITE_INDEX | Índice que será utilizada para as escritas na *Tangle Hornet*. | writeIndex |
-
-###### Obs<sup>3</sup>: Os tipos aceitos são `api` ou `zmq`. ######
 
 Após realizar o *build* da imagem ou utilizando a imagem disponibilizada no [Docker Hub](https://hub.docker.com/r/larsid/tangle-reader), basta utilizar os parâmetros acima.
 
