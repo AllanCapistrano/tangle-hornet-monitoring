@@ -14,11 +14,11 @@ Você pode utilizar a nossa imagem que está disponível no [Docker Hub](https:/
 2. Acesse o diretório do projeto;
 3. Digite o comando para realizar o *build* da imagem:
    ```powershell
-   docker build -t larsid/tangle-reader:<tag_name> .
+   docker build -t larsid/tangle-hornet-monitoring:<tag_name> .
    ```
 4. Execute o container<sup>1</sup>:
    ```powershell
-   docker run -it larsid/tangle-reader:<tag_name>
+   docker run -it larsid/tangle-hornet-monitoring:<tag_name>
    ```
    
 ###### Obs<sup>1</sup>: Dessa maneira irá executar com as configurações padrões. ############
@@ -45,9 +45,10 @@ Você pode utilizar a nossa imagem que está disponível no [Docker Hub](https:/
 | Parâmetro | Descrição | Valor padrão |
 | --------- | --------- | ------------ |
 | API_PORT | Porta na qual a API irá executar | 3000
-| TANGLE_NODE_URL |	URL do nó da *Tangle Hornet* |	127.0.0.1
-| TANGLE_NODE_PORT | Porta do nó da *Tangle Hornet* |	14265
-| INDEX | Índize que será utilizada para as consultas na *Tangle Hornet*. | clientIndex |
+| NODE_URL | URL do nó da *Tangle Hornet* |	127.0.0.1
+| NODE_PORT | Porta do nó da *Tangle Hornet* |	14265
+| READ_INDEX | Índice que será utilizada para as consultas de leitura na *Tangle Hornet*. | readIndex |
+| WRITE_INDEX | Índice que será utilizada para as escritas na *Tangle Hornet*. | writeIndex |
 
 ###### Obs<sup>3</sup>: Os tipos aceitos são `api` ou `zmq`. ######
 
@@ -56,7 +57,7 @@ Após realizar o *build* da imagem ou utilizando a imagem disponibilizada no [Do
 #### Exemplo:
 
 ```powershell
-docker run -it -e API_PORT=3000 -e NODE_URL=172.18.0.5 -e INDEX=my_index larsid/tangle-reader:<tag_name>
+docker run -it -e API_PORT=3000 -e NODE_URL=172.18.0.5 -e INDEX=my_index larsid/tangle-hornet-monitoring:<tag_name>
 
 ```
 
@@ -65,7 +66,10 @@ docker run -it -e API_PORT=3000 -e NODE_URL=172.18.0.5 -e INDEX=my_index larsid/
 | Parâmetro | Descrição | Valor padrão |
 | --------- | --------- | ------------ |
 | -apt | Porta na qual a API irá executar | 3000
-| -idx | Índize que será utilizada para as consultas na *Tangle Hornet*. | clientIndex |
+| -ridx | Índice que será utilizada para as consultas de leitura na *Tangle Hornet*. | readIndex |
+| -widx | Índice que será utilizada para as escritas na *Tangle Hornet*. | writeIndex |
+| -r | Monitoramento de leitura | None |
+| -w | Monitoramento de escrita | None |
 
 ###### Obs: Também é possível alterar essas configurações através do arquivo [tangle-reader.properties](./src/main/resources/br/uefs/larsid/iot/soft/tangle-reader.properties) ######
 
@@ -74,5 +78,5 @@ Após compilar o projeto, basta utilizar os parâmetros acima.
 #### Exemplo:
 
 ```powershell
-java -jar target/tangle-reader-1.0.0-jar-with-dependencies.jar -apt 3000 -idx my_index
+java -jar target/tangle-reader-1.0.0-jar-with-dependencies.jar -apt 3000 -ridx my_index
 ```
