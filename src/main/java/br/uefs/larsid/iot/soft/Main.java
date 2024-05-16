@@ -30,8 +30,6 @@ public class Main {
   private static final Logger logger = Logger.getLogger(Main.class.getName());
 
   public static void main(String[] args) {
-    logger.info("Starting Tangle Reader...");
-
     readProperties(args);
 
     if (!isMonitoringReading && !isMonitoringWriting) {
@@ -39,6 +37,8 @@ public class Main {
     }
 
     if (isMonitoringReading) {
+      logger.info("Starting Tangle Reader...");
+
       new LedgerReader(
         PROTOCOL,
         URL,
@@ -49,6 +49,8 @@ public class Main {
     }
 
     if (isMonitoringWriting) {
+      logger.info("Starting Tangle Writer...");
+
       new LedgerWriter(
         PROTOCOL,
         URL,
