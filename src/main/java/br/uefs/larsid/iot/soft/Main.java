@@ -1,6 +1,7 @@
 package br.uefs.larsid.iot.soft;
 
 import br.uefs.larsid.iot.soft.models.LedgerReader;
+import br.uefs.larsid.iot.soft.models.LedgerWriter;
 import br.uefs.larsid.iot.soft.utils.CLI;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,7 +10,7 @@ import java.util.logging.Logger;
 
 /**
  * @author Allan Capistrano
- * @version 1.0.0
+ * @version 1.1.0
  */
 public class Main {
 
@@ -20,17 +21,45 @@ public class Main {
 
   /*----------------------------- Properties ---------------------------------*/
   private static String apiPort;
-  private static String index;
+  private static String readIndex;
+  private static String writeIndex;
+  private static boolean isMonitoringWriting = false;
+  private static boolean isMonitoringReading = false;
   /*--------------------------------------------------------------------------*/
 
   private static final Logger logger = Logger.getLogger(Main.class.getName());
 
   public static void main(String[] args) {
-    logger.info("Starting Tangle Reader...");
-
     readProperties(args);
 
-    new LedgerReader(PROTOCOL, URL, Integer.parseInt(apiPort), index, false);
+    if (!isMonitoringReading && !isMonitoringWriting) {
+      isMonitoringReading = true;
+    }
+
+    if (isMonitoringReading) {
+      logger.info("Starting Tangle Reader...");
+
+      new LedgerReader(
+        PROTOCOL,
+        URL,
+        Integer.parseInt(apiPort),
+        readIndex,
+        false
+      );
+    }
+
+    if (isMonitoringWriting) {
+      logger.info("Starting Tangle Writer...");
+
+      new LedgerWriter(
+        PROTOCOL,
+        URL,
+        Integer.parseInt(apiPort),
+        128,
+        writeIndex,
+        false
+      );
+    }
   }
 
   /**
@@ -54,8 +83,19 @@ public class Main {
       props.load(input);
 
       apiPort = CLI.getApiPort(args).orElse(props.getProperty("apiPort"));
+      readIndex = CLI.getReadIndex(args).orElse(props.getProperty("readIndex"));
+      writeIndex =
+        CLI.getWriteIndex(args).orElse(props.getProperty("writeIndex"));
 
-      index = CLI.getIndex(args).orElse(props.getProperty("index"));
+      if (CLI.hasParam("-r", args)) {
+        isMonitoringReading = true;
+        isMonitoringWriting = false;
+      }
+
+      if (CLI.hasParam("-w", args)) {
+        isMonitoringWriting = true;
+        isMonitoringReading = false;
+      }
     } catch (IOException ex) {
       logger.warning("Sorry, unable to find tangle-monitor.properties.");
     }
