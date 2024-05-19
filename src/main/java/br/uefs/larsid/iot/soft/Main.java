@@ -3,6 +3,7 @@ package br.uefs.larsid.iot.soft;
 import br.uefs.larsid.iot.soft.models.LedgerReader;
 import br.uefs.larsid.iot.soft.models.LedgerWriter;
 import br.uefs.larsid.iot.soft.utils.CLI;
+import br.uefs.larsid.iot.soft.utils.CsvWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -39,11 +40,14 @@ public class Main {
     if (isMonitoringReading) {
       logger.info("Starting Tangle Reader...");
 
+      CsvWriter csvWriter = new CsvWriter("tangle-reader");
+
       new LedgerReader(
         PROTOCOL,
         URL,
         Integer.parseInt(apiPort),
         readIndex,
+        csvWriter,
         false
       );
     }
@@ -51,12 +55,15 @@ public class Main {
     if (isMonitoringWriting) {
       logger.info("Starting Tangle Writer...");
 
+      CsvWriter csvWriter = new CsvWriter("tangle-writer");
+
       new LedgerWriter(
         PROTOCOL,
         URL,
         Integer.parseInt(apiPort),
         128,
         writeIndex,
+        csvWriter,
         false
       );
     }

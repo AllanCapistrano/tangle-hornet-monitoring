@@ -4,6 +4,7 @@ import br.uefs.larsid.iot.soft.models.enums.TransactionType;
 import br.uefs.larsid.iot.soft.models.transactions.Evaluation;
 import br.uefs.larsid.iot.soft.models.transactions.IndexTransaction;
 import br.uefs.larsid.iot.soft.models.transactions.Transaction;
+import br.uefs.larsid.iot.soft.utils.CsvWriter;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -24,6 +25,13 @@ public class LedgerWriter implements Runnable {
   /*-------------------------Constantes---------------------------------------*/
   private static final long SLEEP = 5000;
   private static final String ENDPOINT = "message";
+  private static String[] CSV_HEADER = { "Time (s)", "Responde Time (ms)" };
+  /*--------------------------------------------------------------------------*/
+
+  /*------------------------------CSV-----------------------------------------*/
+  private String[] csvData = new String[2];
+  private int csvIndex;
+  private final CsvWriter csvWriter;
   /*--------------------------------------------------------------------------*/
 
   private Thread ledgerWriter;
@@ -42,6 +50,7 @@ public class LedgerWriter implements Runnable {
     int port,
     int bufferSize,
     String index,
+    CsvWriter csvWriter,
     boolean debugModeValue
   ) {
     this.urlApi = String.format("%s://%s:%s", protocol, url, port);
@@ -50,6 +59,11 @@ public class LedgerWriter implements Runnable {
     this.DLTOutboundBuffer =
       new ArrayBlockingQueue<IndexTransaction>(bufferSize);
 
+    this.csvWriter = csvWriter;
+    this.csvIndex = 0;
+
+    this.csvWriter.writeData(CSV_HEADER);
+
     if (this.ledgerWriter == null) {
       this.ledgerWriter = new Thread(this);
       this.ledgerWriter.setName("TANGLE_MONITOR/LEDGER_WRITER");
@@ -57,16 +71,12 @@ public class LedgerWriter implements Runnable {
     }
   }
 
-  public LedgerWriter(
-    String urlApi,
-    String index,
-    boolean debugModeValue
-  ) {
+  public LedgerWriter(String urlApi, String index, boolean debugModeValue) {
     this.urlApi = urlApi;
     this.index = index;
     this.debugModeValue = debugModeValue;
-    this.DLTOutboundBuffer =
-      new ArrayBlockingQueue<IndexTransaction>(128);
+    this.DLTOutboundBuffer = new ArrayBlockingQueue<IndexTransaction>(128);
+    this.csvWriter = null;
   }
 
   /**
@@ -170,7 +180,18 @@ public class LedgerWriter implements Runnable {
 
         this.createMessage(indexTransaction.getIndex(), transactionJson);
         long end = System.currentTimeMillis();
-        logger.info("API write operation response time (ms): " + (end - start));
+        long responseTime = end - start;
+
+        logger.info("API write operation response time (ms): " + responseTime);
+
+        if (this.csvWriter != null) {
+          this.csvData[0] = String.valueOf(SLEEP / 1000 * this.csvIndex);
+          this.csvData[1] = String.valueOf(responseTime);
+
+          this.csvWriter.writeData(this.csvData);
+
+          this.csvIndex++;
+        }
 
         Thread.sleep(SLEEP);
       } catch (InterruptedException ex) {
