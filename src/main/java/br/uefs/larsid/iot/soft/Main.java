@@ -38,7 +38,7 @@ public class Main {
     }
 
     if (isMonitoringReading) {
-      logger.info("Starting Tangle Reader...");
+      logger.info("Starting Tangle Reader...\n");
 
       CsvWriter csvWriter = new CsvWriter("tangle-reader");
 
@@ -53,7 +53,7 @@ public class Main {
     }
 
     if (isMonitoringWriting) {
-      logger.info("Starting Tangle Writer...");
+      logger.info("Starting Tangle Writer...\n");
 
       CsvWriter csvWriter = new CsvWriter("tangle-writer");
 

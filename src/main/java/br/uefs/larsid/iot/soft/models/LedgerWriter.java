@@ -183,7 +183,7 @@ public class LedgerWriter implements Runnable {
         long end = System.currentTimeMillis();
         long responseTime = end - start;
 
-        logger.info("API write operation response time (ms): " + responseTime);
+        logger.info("API write operation response time (ms): " + responseTime + "\n");
 
         if (this.csvWriter != null) {
           this.csvData[0] = String.valueOf(SLEEP / 1000 * this.csvIndex);
