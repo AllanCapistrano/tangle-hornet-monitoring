@@ -78,11 +78,11 @@ public class Main {
   private static void readProperties(String[] args) {
     try (
       InputStream input = Main.class.getResourceAsStream(
-          "tangle-reader.properties"
+          "tangle-hornet-monitoring.properties"
         )
     ) {
       if (input == null) {
-        logger.warning("Sorry, unable to find tangle-reader.properties.");
+        logger.warning("Sorry, unable to find tangle-hornet-monitoring.properties.");
         return;
       }
 
