@@ -18,4 +18,4 @@ EOF
 ./bin/tangle-hornet-api &
 
 # ---------------------- Iniciando Tangle Reader ----------------------------- #
-./tangle-reader.sh $arg
+./tangle-hornet-monitoring.sh $arg

@@ -11,11 +11,11 @@ ENV API_PORT=3000 \
 
 ADD target/tangle-hornet-monitoring-1.0.0-jar-with-dependencies.jar bin/tangle-hornet-monitoring-1.0.0-jar-with-dependencies.jar
 ADD tangle-hornet-config.sh /tangle-hornet-config.sh
-ADD tangle-reader.sh tangle-reader.sh
+ADD tangle-hornet-monitoring.sh tangle-hornet-monitoring.sh
 
 RUN mv ./tangle-hornet-api /bin
 RUN chmod +x /bin/tangle-hornet-api
-RUN chmod +x tangle-reader.sh
+RUN chmod +x tangle-hornet-monitoring.sh
 RUN chmod +x tangle-hornet-config.sh
 
 ENTRYPOINT ["/bin/bash", "./tangle-hornet-config.sh"]
