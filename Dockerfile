@@ -9,7 +9,7 @@ ENV API_PORT=3000 \
     READ_INDEX=readIndex \
     WRITE_INDEX=writeIndex
 
-ADD target/tangle-reader-1.0.0-jar-with-dependencies.jar bin/tangle-reader-1.0.0-jar-with-dependencies.jar
+ADD target/tangle-hornet-monitoring-1.0.0-jar-with-dependencies.jar bin/tangle-hornet-monitoring-1.0.0-jar-with-dependencies.jar
 ADD tangle-hornet-config.sh /tangle-hornet-config.sh
 ADD tangle-reader.sh tangle-reader.sh
 
