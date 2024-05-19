@@ -4,6 +4,7 @@ import br.uefs.larsid.iot.soft.models.enums.TransactionType;
 import br.uefs.larsid.iot.soft.models.tangle.Payload;
 import br.uefs.larsid.iot.soft.models.transactions.Evaluation;
 import br.uefs.larsid.iot.soft.models.transactions.Transaction;
+import br.uefs.larsid.iot.soft.utils.CsvWriter;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,20 +17,29 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
+ * 
  * @author Allan Capistrano
+ * @version 1.1.0
  */
 public class LedgerReader implements Runnable {
 
-  /*-------------------------Constantes---------------------------------------*/
+  /*---------------------------- Constantes ----------------------------------*/
   private static final long SLEEP = 5000;
   private static final String ENDPOINT = "message";
   private static final String ENDPOINT_MESSAGE_ID = "message/messageId";
+  private static String[] CSV_HEADER = { "Time (s)", "Responde Time (ms)" };
+  /*--------------------------------------------------------------------------*/
+
+  /*----------------------------- CSV ----------------------------------------*/
+  private String[] csvData = new String[2];
+  private int csvIndex;
+  private final CsvWriter csvWriter;
   /*--------------------------------------------------------------------------*/
 
   private Thread ledgerReader;
-  private final String index;
   private boolean debugModeValue;
   private String urlApi;
+  private final String index;
 
   private static final Logger logger = Logger.getLogger(
     LedgerReader.class.getName()
@@ -40,11 +50,16 @@ public class LedgerReader implements Runnable {
     String url,
     int port,
     String index,
+    CsvWriter csvWriter,
     boolean debugModeValue
   ) {
     this.urlApi = String.format("%s://%s:%s", protocol, url, port);
     this.debugModeValue = debugModeValue;
     this.index = index;
+    this.csvWriter = csvWriter;
+    this.csvIndex = 0;
+
+    this.csvWriter.writeData(CSV_HEADER);
 
     if (this.ledgerReader == null) {
       this.ledgerReader = new Thread(this);
@@ -201,7 +216,18 @@ public class LedgerReader implements Runnable {
         }
 
         long end = System.currentTimeMillis();
-        logger.info("API read operation response time (ms): " + (end - start));
+        long responseTime = end - start;
+
+        logger.info("API read operation response time (ms): " + responseTime);
+
+        if (this.csvWriter != null) {
+          this.csvData[0] = String.valueOf(SLEEP / 1000 * this.csvIndex);
+          this.csvData[1] = String.valueOf(responseTime);
+
+          this.csvWriter.writeData(this.csvData);
+
+          this.csvIndex++;
+        }
 
         Thread.sleep(SLEEP);
       } catch (InterruptedException ie) {
