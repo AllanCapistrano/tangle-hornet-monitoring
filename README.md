@@ -33,7 +33,7 @@ Você pode utilizar a nossa imagem que está disponível no [Docker Hub](https:/
    ```
 4. Execute o projeto<sup>2</sup>:
    ```powershell
-   java -jar target/tangle-reader-1.0.0-jar-with-dependencies.jar
+   java -jar target/tangle-hornet-monitoring-1.0.0-jar-with-dependencies.jar
    ```
    
 ###### Obs<sup>2</sup>: Dessa maneira irá executar com as configurações padrões. ############
@@ -50,7 +50,7 @@ Você pode utilizar a nossa imagem que está disponível no [Docker Hub](https:/
 | READ_INDEX | Índice que será utilizada para as consultas de leitura na *Tangle Hornet*. | readIndex |
 | WRITE_INDEX | Índice que será utilizada para as escritas na *Tangle Hornet*. | writeIndex |
 
-Após realizar o *build* da imagem ou utilizando a imagem disponibilizada no [Docker Hub](https://hub.docker.com/r/larsid/tangle-reader), basta utilizar os parâmetros acima.
+Após realizar o *build* da imagem ou utilizando a imagem disponibilizada no [Docker Hub](https://hub.docker.com/r/larsid/tangle-hornet-monitoring), basta utilizar os parâmetros acima.
 
 #### Exemplo:
 
@@ -69,12 +69,12 @@ docker run -it -e API_PORT=3000 -e NODE_URL=172.18.0.5 -e INDEX=my_index larsid/
 | -r | Monitoramento de leitura | None |
 | -w | Monitoramento de escrita | None |
 
-###### Obs: Também é possível alterar essas configurações através do arquivo [tangle-reader.properties](./src/main/resources/br/uefs/larsid/iot/soft/tangle-reader.properties) ######
+###### Obs: Também é possível alterar essas configurações através do arquivo [tangle-hornet-monitoring.properties](./src/main/resources/br/uefs/larsid/iot/soft/tangle-hornet-monitoring.properties) ######
 
 Após compilar o projeto, basta utilizar os parâmetros acima.
 
 #### Exemplo:
 
 ```powershell
-java -jar target/tangle-reader-1.0.0-jar-with-dependencies.jar -apt 3000 -ridx my_index
+java -jar target/tangle-hornet-monitoring-1.0.0-jar-with-dependencies.jar -apt 3000 -ridx my_index
 ```
