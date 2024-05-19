@@ -6,7 +6,7 @@ Recomendamos a utilização do Docker, mas também é possível executar o proje
 
 ### Via Docker
 
-Você pode utilizar a nossa imagem que está disponível no [Docker Hub](https://hub.docker.com/r/larsid/tangle-reader), ou fazer o *build* da imagem manualmente.
+Você pode utilizar a nossa imagem que está disponível no [Docker Hub](https://hub.docker.com/r/larsid/tangle-hornet-monitoring), ou fazer o *build* da imagem manualmente.
 
 #### Build da imagem Docker:
 
