@@ -15,12 +15,12 @@ import java.util.logging.Logger;
  */
 public class Main {
 
-  /*----------------------------- Constants ----------------------------------*/
+  /*---------------------------- Constantes ----------------------------------*/
   private static String PROTOCOL = "http";
   private static String URL = "127.0.0.1";
   /*--------------------------------------------------------------------------*/
 
-  /*----------------------------- Properties ---------------------------------*/
+  /*----------------------------- Propriedades -------------------------------*/
   private static String apiPort;
   private static String readIndex;
   private static String writeIndex;

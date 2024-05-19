@@ -19,16 +19,17 @@ import java.util.logging.Logger;
 /**
  *
  * @author Allan Capistrano
+ * @version 1.1.0
  */
 public class LedgerWriter implements Runnable {
 
-  /*-------------------------Constantes---------------------------------------*/
+  /*---------------------------- Constantes ----------------------------------*/
   private static final long SLEEP = 5000;
   private static final String ENDPOINT = "message";
   private static String[] CSV_HEADER = { "Time (s)", "Responde Time (ms)" };
   /*--------------------------------------------------------------------------*/
 
-  /*------------------------------CSV-----------------------------------------*/
+  /*----------------------------- CSV ----------------------------------------*/
   private String[] csvData = new String[2];
   private int csvIndex;
   private final CsvWriter csvWriter;
