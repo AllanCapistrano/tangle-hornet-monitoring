@@ -1,7 +1,7 @@
 FROM openjdk:8
 LABEL maintainder="AllanCapistrano <asantos@ecomp.uefs.br>"
 
-RUN wget https://github.com/AllanCapistrano/tangle-hornet-api/releases/download/v1.3.1/tangle-hornet-api
+RUN wget https://github.com/AllanCapistrano/tangle-hornet-api/releases/download/v1.5.0/tangle-hornet-api
 
 ENV API_PORT=3000 \
     NODE_URL=127.0.0.1 \
