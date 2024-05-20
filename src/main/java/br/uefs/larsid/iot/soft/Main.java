@@ -73,7 +73,7 @@ public class Main {
     if (isMonitoringNode) {
       logger.info("Starting Node Info...\n");
 
-      CsvWriter csvWriter = new CsvWriter("node-info");
+      CsvWriter csvWriter = new CsvWriter("tangle-node-info");
 
       new NodeInfo(PROTOCOL, URL, Integer.parseInt(apiPort), csvWriter, false);
     }
