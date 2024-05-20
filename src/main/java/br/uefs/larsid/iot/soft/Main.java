@@ -2,6 +2,7 @@ package br.uefs.larsid.iot.soft;
 
 import br.uefs.larsid.iot.soft.models.LedgerReader;
 import br.uefs.larsid.iot.soft.models.LedgerWriter;
+import br.uefs.larsid.iot.soft.models.NodeInfo;
 import br.uefs.larsid.iot.soft.utils.CLI;
 import br.uefs.larsid.iot.soft.utils.CsvWriter;
 import java.io.IOException;
@@ -26,6 +27,7 @@ public class Main {
   private static String writeIndex;
   private static boolean isMonitoringWriting = false;
   private static boolean isMonitoringReading = false;
+  private static boolean isMonitoringNode = false;
   /*--------------------------------------------------------------------------*/
 
   private static final Logger logger = Logger.getLogger(Main.class.getName());
@@ -33,7 +35,7 @@ public class Main {
   public static void main(String[] args) {
     readProperties(args);
 
-    if (!isMonitoringReading && !isMonitoringWriting) {
+    if (!isMonitoringReading && !isMonitoringWriting && !isMonitoringNode) {
       isMonitoringReading = true;
     }
 
@@ -67,6 +69,14 @@ public class Main {
         false
       );
     }
+
+    if (isMonitoringNode) {
+      logger.info("Starting Node Info...\n");
+
+      CsvWriter csvWriter = new CsvWriter("node-info");
+
+      new NodeInfo(PROTOCOL, URL, Integer.parseInt(apiPort), csvWriter, false);
+    }
   }
 
   /**
@@ -82,7 +92,9 @@ public class Main {
         )
     ) {
       if (input == null) {
-        logger.warning("Sorry, unable to find tangle-hornet-monitoring.properties.");
+        logger.warning(
+          "Sorry, unable to find tangle-hornet-monitoring.properties."
+        );
         return;
       }
 
@@ -97,11 +109,19 @@ public class Main {
       if (CLI.hasParam("-r", args)) {
         isMonitoringReading = true;
         isMonitoringWriting = false;
+        isMonitoringNode = false;
       }
 
       if (CLI.hasParam("-w", args)) {
-        isMonitoringWriting = true;
         isMonitoringReading = false;
+        isMonitoringWriting = true;
+        isMonitoringNode = false;
+      }
+
+      if (CLI.hasParam("-ni", args)) {
+        isMonitoringReading = false;
+        isMonitoringWriting = false;
+        isMonitoringNode = true;
       }
     } catch (IOException ex) {
       logger.warning("Sorry, unable to find tangle-monitor.properties.");
