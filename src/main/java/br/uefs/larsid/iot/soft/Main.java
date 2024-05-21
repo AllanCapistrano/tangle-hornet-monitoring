@@ -80,7 +80,7 @@ public class Main {
         PROTOCOL,
         URL,
         Integer.parseInt(apiPort),
-        128,
+        BUFFER_SIZE,
         writeIndex,
         csvWriter,
         false
