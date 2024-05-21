@@ -3,6 +3,13 @@ package br.uefs.larsid.iot.soft;
 import br.uefs.larsid.iot.soft.models.LedgerReader;
 import br.uefs.larsid.iot.soft.models.LedgerWriter;
 import br.uefs.larsid.iot.soft.models.NodeInfo;
+import br.uefs.larsid.iot.soft.models.ZMQListener;
+import br.uefs.larsid.iot.soft.models.ZMQMonitor;
+import br.uefs.larsid.iot.soft.models.ZMQPublisher;
+import br.uefs.larsid.iot.soft.models.enums.TransactionType;
+import br.uefs.larsid.iot.soft.models.transactions.Evaluation;
+import br.uefs.larsid.iot.soft.models.transactions.Transaction;
+import br.uefs.larsid.iot.soft.services.ILedgerSubscriber;
 import br.uefs.larsid.iot.soft.utils.CLI;
 import br.uefs.larsid.iot.soft.utils.CsvWriter;
 import java.io.IOException;
@@ -12,13 +19,17 @@ import java.util.logging.Logger;
 
 /**
  * @author Allan Capistrano
- * @version 1.1.0
+ * @version 1.2.0
  */
 public class Main {
 
   /*---------------------------- Constantes ----------------------------------*/
   private static String PROTOCOL = "http";
   private static String URL = "127.0.0.1";
+  private static int BUFFER_SIZE = 128;
+  private static String ZMQ_SOCKET_PROTOCOL = "tcp";
+  private static String ZMQ_SOCKET_URL = "172.18.0.1";
+  private static String ZMQ_SOCKET_PORT = "5556";
   /*--------------------------------------------------------------------------*/
 
   /*----------------------------- Propriedades -------------------------------*/
@@ -28,6 +39,7 @@ public class Main {
   private static boolean isMonitoringWriting = false;
   private static boolean isMonitoringReading = false;
   private static boolean isMonitoringNode = false;
+  private static boolean isMonitoringZMQ = false;
   /*--------------------------------------------------------------------------*/
 
   private static final Logger logger = Logger.getLogger(Main.class.getName());
@@ -35,7 +47,12 @@ public class Main {
   public static void main(String[] args) {
     readProperties(args);
 
-    if (!isMonitoringReading && !isMonitoringWriting && !isMonitoringNode) {
+    if (
+      !isMonitoringReading &&
+      !isMonitoringWriting &&
+      !isMonitoringNode &&
+      !isMonitoringZMQ
+    ) {
       isMonitoringReading = true;
     }
 
@@ -77,6 +94,20 @@ public class Main {
 
       new NodeInfo(PROTOCOL, URL, Integer.parseInt(apiPort), csvWriter, false);
     }
+
+    if (isMonitoringZMQ) {
+      logger.info("Starting ZMQ Monitoring...\n");
+
+      new ZMQMonitor(
+        PROTOCOL,
+        URL,
+        apiPort,
+        BUFFER_SIZE,
+        ZMQ_SOCKET_PROTOCOL,
+        ZMQ_SOCKET_URL,
+        ZMQ_SOCKET_PORT
+      );
+    }
   }
 
   /**
@@ -110,18 +141,28 @@ public class Main {
         isMonitoringReading = true;
         isMonitoringWriting = false;
         isMonitoringNode = false;
+        isMonitoringZMQ = false;
       }
 
       if (CLI.hasParam("-w", args)) {
         isMonitoringReading = false;
         isMonitoringWriting = true;
         isMonitoringNode = false;
+        isMonitoringZMQ = false;
       }
 
       if (CLI.hasParam("-ni", args)) {
         isMonitoringReading = false;
         isMonitoringWriting = false;
         isMonitoringNode = true;
+        isMonitoringZMQ = false;
+      }
+
+      if (CLI.hasParam("-z", args)) {
+        isMonitoringReading = false;
+        isMonitoringWriting = false;
+        isMonitoringNode = false;
+        isMonitoringZMQ = true;
       }
     } catch (IOException ex) {
       logger.warning("Sorry, unable to find tangle-monitor.properties.");
