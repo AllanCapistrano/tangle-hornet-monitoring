@@ -21,9 +21,6 @@ public class Main {
   private static String PROTOCOL = "http";
   private static String URL = "127.0.0.1";
   private static int BUFFER_SIZE = 128;
-  // private static String ZMQ_SOCKET_PROTOCOL = "tcp";
-  // private static String ZMQ_SOCKET_URL = "172.18.0.1";
-  // private static String ZMQ_SOCKET_PORT = "5556";
   /*--------------------------------------------------------------------------*/
 
   /*----------------------------- Propriedades -------------------------------*/
