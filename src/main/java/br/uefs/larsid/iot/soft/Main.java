@@ -98,6 +98,8 @@ public class Main {
     if (isMonitoringZMQ) {
       logger.info("Starting ZMQ Monitoring...\n");
 
+      CsvWriter csvWriter = new CsvWriter("tangle-zmq");
+
       new ZMQMonitor(
         PROTOCOL,
         URL,
@@ -105,7 +107,8 @@ public class Main {
         BUFFER_SIZE,
         ZMQ_SOCKET_PROTOCOL,
         ZMQ_SOCKET_URL,
-        ZMQ_SOCKET_PORT
+        ZMQ_SOCKET_PORT,
+        csvWriter
       );
     }
   }
