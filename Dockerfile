@@ -7,7 +7,10 @@ ENV API_PORT=3000 \
     NODE_URL=127.0.0.1 \
     NODE_PORT=14265 \
     READ_INDEX=readIndex \
-    WRITE_INDEX=writeIndex
+    WRITE_INDEX=writeIndex \
+    ZMQ_SOCKET_PROTOCOL=tcp \
+    ZMQ_SOCKET_URL=127.0.0.1 \
+    ZMQ_SOCKET_PORT=5556
 
 ADD target/tangle-hornet-monitoring-1.0.0-jar-with-dependencies.jar bin/tangle-hornet-monitoring-1.0.0-jar-with-dependencies.jar
 ADD tangle-hornet-config.sh /tangle-hornet-config.sh

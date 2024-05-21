@@ -23,6 +23,18 @@ public class CLI {
     return getArgInList("-widx", args);
   }
 
+  public static Optional<String> getZMQSocketProtocol(String... args) {
+    return getArgInList("-zsp", args);
+  }
+
+  public static Optional<String> getZMQSocketUrl(String... args) {
+    return getArgInList("-zsu", args);
+  }
+  
+  public static Optional<String> getZMQSocketPort(String... args) {
+    return getArgInList("-zspt", args);
+  }
+
   public static boolean hasParam(String arg, String... args) {
     return Arrays.asList(args).indexOf(arg) != -1;
   }

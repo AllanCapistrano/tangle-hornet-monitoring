@@ -76,7 +76,10 @@ public class Transaction {
       return gson.fromJson(reader, Status.class);
     } else if (type.equals(TransactionType.LB_DEVICE.name())) {
       return gson.fromJson(reader, LBDevice.class);
-    } else if (type.equals(TransactionType.REP_EVALUATION.name())) {
+    } else if (
+      type.equals(TransactionType.REP_EVALUATION.name()) ||
+      type.equals(TransactionType.REP_ZMQ_MONITOR.name())
+    ) {
       return gson.fromJson(reader, Evaluation.class);
     } else {
       return null;
