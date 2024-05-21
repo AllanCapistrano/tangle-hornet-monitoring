@@ -21,15 +21,18 @@ public class Main {
   private static String PROTOCOL = "http";
   private static String URL = "127.0.0.1";
   private static int BUFFER_SIZE = 128;
-  private static String ZMQ_SOCKET_PROTOCOL = "tcp";
-  private static String ZMQ_SOCKET_URL = "172.18.0.1";
-  private static String ZMQ_SOCKET_PORT = "5556";
+  // private static String ZMQ_SOCKET_PROTOCOL = "tcp";
+  // private static String ZMQ_SOCKET_URL = "172.18.0.1";
+  // private static String ZMQ_SOCKET_PORT = "5556";
   /*--------------------------------------------------------------------------*/
 
   /*----------------------------- Propriedades -------------------------------*/
   private static String apiPort;
   private static String readIndex;
   private static String writeIndex;
+  private static String zmqSocketProtocol;
+  private static String zmqSocketUrl;
+  private static String zmqSocketPort;
   private static boolean isMonitoringWriting = false;
   private static boolean isMonitoringReading = false;
   private static boolean isMonitoringNode = false;
@@ -99,9 +102,9 @@ public class Main {
         URL,
         apiPort,
         BUFFER_SIZE,
-        ZMQ_SOCKET_PROTOCOL,
-        ZMQ_SOCKET_URL,
-        ZMQ_SOCKET_PORT,
+        zmqSocketProtocol,
+        zmqSocketUrl,
+        zmqSocketPort,
         csvWriter
       );
     }
@@ -133,6 +136,15 @@ public class Main {
       readIndex = CLI.getReadIndex(args).orElse(props.getProperty("readIndex"));
       writeIndex =
         CLI.getWriteIndex(args).orElse(props.getProperty("writeIndex"));
+
+      zmqSocketProtocol =
+        CLI
+          .getZMQSocketProtocol(args)
+          .orElse(props.getProperty("zmqSocketProtocol"));
+      zmqSocketUrl =
+        CLI.getZMQSocketUrl(args).orElse(props.getProperty("zmqSocketUrl"));
+      zmqSocketPort =
+        CLI.getZMQSocketPort(args).orElse(props.getProperty("zmqSocketPort"));
 
       if (CLI.hasParam("-r", args)) {
         isMonitoringReading = true;
