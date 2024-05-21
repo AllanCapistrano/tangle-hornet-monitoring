@@ -22,11 +22,15 @@ import java.util.logging.Logger;
  */
 public class ZMQPublisher implements Runnable {
 
+  /*---------------------------- Constantes ----------------------------------*/
+  public static final long SLEEP = 5000;
+  private static final String ENDPOINT = "message";
+  /*--------------------------------------------------------------------------*/
+
   private String urlApi;
   private Thread DLTOutboundMonitor;
   private boolean debugModeValue;
   private final BlockingQueue<IndexTransaction> DLTOutboundBuffer;
-  private static final String ENDPOINT = "message";
 
   private static final Logger logger = Logger.getLogger(
     ZMQPublisher.class.getName()
@@ -83,6 +87,8 @@ public class ZMQPublisher implements Runnable {
         String transactionJson = gson.toJson(indexTransaction.getTransaction());
 
         this.createMessage(indexTransaction.getIndex(), transactionJson);
+
+        Thread.sleep(SLEEP);
       } catch (InterruptedException ex) {
         this.DLTOutboundMonitor.interrupt();
       }
