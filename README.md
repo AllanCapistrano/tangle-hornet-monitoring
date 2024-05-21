@@ -47,11 +47,11 @@ Você pode utilizar a nossa imagem que está disponível no [Docker Hub](https:/
 | API_PORT | Porta na qual a API irá executar | 3000
 | NODE_URL | URL do nó da *Tangle Hornet* |	127.0.0.1
 | NODE_PORT | Porta do nó da *Tangle Hornet* |	14265
-| READ_INDEX | Índice que será utilizada para as consultas de leitura na *Tangle Hornet*. | readIndex |
-| WRITE_INDEX | Índice que será utilizada para as escritas na *Tangle Hornet*. | writeIndex |
 | ZMQ_SOCKET_PROTOCOL | Protocolo utilizado pelo servidor ZMQ | tcp |
 | ZMQ_SOCKET_URL | URL do servidor ZMQ | 127.0.0.1 |
 | ZMQ_SOCKET_PORT | Porta do servidor ZMQ | 5556 |
+| READ_INDEX | Índice que será utilizada para as consultas de leitura na *Tangle Hornet*. | readIndex |
+| WRITE_INDEX | Índice que será utilizada para as escritas na *Tangle Hornet*. | writeIndex |
 
 Após realizar o *build* da imagem ou utilizando a imagem disponibilizada no [Docker Hub](https://hub.docker.com/r/larsid/tangle-hornet-monitoring), basta utilizar os parâmetros acima.
 
