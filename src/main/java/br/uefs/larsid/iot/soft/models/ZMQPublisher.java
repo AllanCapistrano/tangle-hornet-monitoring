@@ -28,7 +28,7 @@ public class ZMQPublisher implements Runnable {
   /*--------------------------------------------------------------------------*/
 
   private String urlApi;
-  private Thread DLTOutboundMonitor;
+  private Thread zqmPublisher;
   private boolean debugModeValue;
   private final BlockingQueue<IndexTransaction> DLTOutboundBuffer;
 
@@ -49,10 +49,10 @@ public class ZMQPublisher implements Runnable {
 
     this.debugModeValue = debugModeValue;
 
-    if (this.DLTOutboundMonitor == null) {
-      this.DLTOutboundMonitor = new Thread(this);
-      this.DLTOutboundMonitor.setName("TANGLE_MONITOR/ZMQ_PUBLISHER");
-      this.DLTOutboundMonitor.start();
+    if (this.zqmPublisher == null) {
+      this.zqmPublisher = new Thread(this);
+      this.zqmPublisher.setName("TANGLE_MONITOR/ZMQ_PUBLISHER");
+      this.zqmPublisher.start();
     }
   }
 
@@ -60,7 +60,7 @@ public class ZMQPublisher implements Runnable {
   public void run() {
     Gson gson = new Gson();
 
-    while (!this.DLTOutboundMonitor.isInterrupted()) {
+    while (!this.zqmPublisher.isInterrupted()) {
       try {
         Transaction transaction = new Evaluation(
           "fakeSourceZMQ",
@@ -90,7 +90,7 @@ public class ZMQPublisher implements Runnable {
 
         Thread.sleep(SLEEP);
       } catch (InterruptedException ex) {
-        this.DLTOutboundMonitor.interrupt();
+        this.zqmPublisher.interrupt();
       }
     }
   }
