@@ -8,4 +8,5 @@ public enum TransactionType {
   LB_REPLY,
   LB_DEVICE,
   REP_EVALUATION,
+  REP_ZMQ_MONITOR
 }
