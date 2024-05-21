@@ -43,7 +43,7 @@ public class ZMQServer implements Runnable {
   }
 
   public void subscribe(String topic) {
-    logger.info("Subscribe: " + topic);
+    logger.info("Subscribe: " + topic + "\n");
     this.serverListener.subscribe(topic);
   }
 
