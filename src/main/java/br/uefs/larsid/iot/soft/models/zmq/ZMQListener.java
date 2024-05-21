@@ -1,4 +1,4 @@
-package br.uefs.larsid.iot.soft.models;
+package br.uefs.larsid.iot.soft.models.zmq;
 
 import br.uefs.larsid.iot.soft.models.tangle.Message;
 import br.uefs.larsid.iot.soft.models.transactions.Transaction;

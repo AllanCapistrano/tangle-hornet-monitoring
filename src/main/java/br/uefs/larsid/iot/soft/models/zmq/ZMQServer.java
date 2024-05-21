@@ -1,4 +1,4 @@
-package br.uefs.larsid.iot.soft.models;
+package br.uefs.larsid.iot.soft.models.zmq;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;

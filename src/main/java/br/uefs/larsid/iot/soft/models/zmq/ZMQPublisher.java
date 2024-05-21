@@ -1,4 +1,4 @@
-package br.uefs.larsid.iot.soft.models;
+package br.uefs.larsid.iot.soft.models.zmq;
 
 import br.uefs.larsid.iot.soft.models.enums.TransactionType;
 import br.uefs.larsid.iot.soft.models.transactions.Evaluation;
