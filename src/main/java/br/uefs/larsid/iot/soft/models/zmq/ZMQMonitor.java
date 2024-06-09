@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 public class ZMQMonitor implements ILedgerSubscriber {
 
   /*---------------------------- Constantes ----------------------------------*/
-  private static String[] CSV_HEADER = { "Time (s)", "Responde Time (ms)" };
+  private static String[] CSV_HEADER = { "Time (s)", "Response Time (ms)" };
   /*--------------------------------------------------------------------------*/
 
   /*----------------------------- CSV ----------------------------------------*/

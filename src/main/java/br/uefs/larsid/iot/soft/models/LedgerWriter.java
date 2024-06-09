@@ -26,7 +26,7 @@ public class LedgerWriter implements Runnable {
   /*---------------------------- Constantes ----------------------------------*/
   private static final long SLEEP = 5000;
   private static final String ENDPOINT = "message";
-  private static String[] CSV_HEADER = { "Time (s)", "Responde Time (ms)" };
+  private static String[] CSV_HEADER = { "Time (s)", "Response Time (ms)" };
   /*--------------------------------------------------------------------------*/
 
   /*----------------------------- CSV ----------------------------------------*/
