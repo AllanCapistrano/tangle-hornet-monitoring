@@ -39,6 +39,7 @@ public class LedgerReader implements Runnable {
   private Thread ledgerReader;
   private boolean debugModeValue;
   private String urlApi;
+  private final boolean publishBeforeRead;
   private final String index;
 
   private static final Logger logger = Logger.getLogger(
@@ -51,10 +52,12 @@ public class LedgerReader implements Runnable {
     int port,
     String index,
     CsvWriter csvWriter,
+    boolean publishBeforeRead,
     boolean debugModeValue
   ) {
     this.urlApi = String.format("%s://%s:%s", protocol, url, port);
     this.debugModeValue = debugModeValue;
+    this.publishBeforeRead = publishBeforeRead;
     this.index = index;
     this.csvWriter = csvWriter;
     this.csvIndex = 0;
@@ -204,6 +207,29 @@ public class LedgerReader implements Runnable {
       try {
         long start = System.currentTimeMillis();
 
+        if (this.publishBeforeRead) {
+          Gson gson = new Gson();
+
+          Transaction transaction = new Evaluation(
+            "fakeSource",
+            "fakeTarget",
+            TransactionType.REP_EVALUATION,
+            0,
+            0,
+            0
+          );
+
+          String transactionJson = gson.toJson(transaction);
+
+          LedgerWriter ledgerWriter = new LedgerWriter(
+            this.urlApi,
+            this.index,
+            this.debugModeValue
+          );
+
+          ledgerWriter.createMessage(this.index, transactionJson);
+        }
+
         List<Transaction> transactions =
           this.getTransactionsByIndex(this.index);
 
@@ -211,8 +237,10 @@ public class LedgerReader implements Runnable {
           Long.compare(t1.getCreatedAt(), t2.getCreatedAt())
         );
 
-        for (Transaction transaction : transactions) {
-          logger.info(((Evaluation) transaction).toString());
+        if (this.debugModeValue) {
+          for (Transaction transaction : transactions) {
+            logger.info(((Evaluation) transaction).toString());
+          }
         }
 
         long end = System.currentTimeMillis();
