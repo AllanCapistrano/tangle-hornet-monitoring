@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 /**
  * @author Allan Capistrano
- * @version 1.2.0
+ * @version 1.3.0
  */
 public class Main {
 
@@ -30,10 +30,12 @@ public class Main {
   private static String zmqSocketProtocol;
   private static String zmqSocketUrl;
   private static String zmqSocketPort;
+  private static String readMultipleIndex;
   private static boolean isMonitoringWriting = false;
   private static boolean isMonitoringReading = false;
   private static boolean isMonitoringNode = false;
   private static boolean isMonitoringZMQ = false;
+  private static boolean isMonitoringReadingMultipleTransactions = false;
   /*--------------------------------------------------------------------------*/
 
   private static final Logger logger = Logger.getLogger(Main.class.getName());
@@ -45,7 +47,8 @@ public class Main {
       !isMonitoringReading &&
       !isMonitoringWriting &&
       !isMonitoringNode &&
-      !isMonitoringZMQ
+      !isMonitoringZMQ &&
+      !isMonitoringReadingMultipleTransactions
     ) {
       isMonitoringReading = true;
     }
@@ -61,6 +64,23 @@ public class Main {
         Integer.parseInt(apiPort),
         readIndex,
         csvWriter,
+        false,
+        false
+      );
+    }
+
+    if (isMonitoringReadingMultipleTransactions) {
+      logger.info("Starting Tangle Reader...\n");
+
+      CsvWriter csvWriter = new CsvWriter("tangle-reader");
+
+      new LedgerReader(
+        PROTOCOL,
+        URL,
+        Integer.parseInt(apiPort),
+        readMultipleIndex,
+        csvWriter,
+        true,
         false
       );
     }
@@ -133,6 +153,8 @@ public class Main {
       readIndex = CLI.getReadIndex(args).orElse(props.getProperty("readIndex"));
       writeIndex =
         CLI.getWriteIndex(args).orElse(props.getProperty("writeIndex"));
+      readMultipleIndex =
+        CLI.getWriteIndex(args).orElse(props.getProperty("readMultipleIndex"));
 
       zmqSocketProtocol =
         CLI
@@ -148,6 +170,7 @@ public class Main {
         isMonitoringWriting = false;
         isMonitoringNode = false;
         isMonitoringZMQ = false;
+        isMonitoringReadingMultipleTransactions = false;
       }
 
       if (CLI.hasParam("-w", args)) {
@@ -155,6 +178,7 @@ public class Main {
         isMonitoringWriting = true;
         isMonitoringNode = false;
         isMonitoringZMQ = false;
+        isMonitoringReadingMultipleTransactions = false;
       }
 
       if (CLI.hasParam("-ni", args)) {
@@ -162,6 +186,7 @@ public class Main {
         isMonitoringWriting = false;
         isMonitoringNode = true;
         isMonitoringZMQ = false;
+        isMonitoringReadingMultipleTransactions = false;
       }
 
       if (CLI.hasParam("-z", args)) {
@@ -169,6 +194,15 @@ public class Main {
         isMonitoringWriting = false;
         isMonitoringNode = false;
         isMonitoringZMQ = true;
+        isMonitoringReadingMultipleTransactions = false;
+      }
+
+      if (CLI.hasParam("-rmi", args)) {
+        isMonitoringReading = false;
+        isMonitoringWriting = false;
+        isMonitoringNode = false;
+        isMonitoringZMQ = false;
+        isMonitoringReadingMultipleTransactions = true;
       }
     } catch (IOException ex) {
       logger.warning("Sorry, unable to find tangle-monitor.properties.");
