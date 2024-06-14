@@ -8,6 +8,7 @@ ENV API_PORT=3000 \
     NODE_PORT=14265 \
     READ_INDEX=readIndex \
     WRITE_INDEX=writeIndex \
+    READ_MULTIPLE_INDEX=readMultipleIndex \
     ZMQ_SOCKET_PROTOCOL=tcp \
     ZMQ_SOCKET_URL=127.0.0.1 \
     ZMQ_SOCKET_PORT=5556

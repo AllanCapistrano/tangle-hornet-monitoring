@@ -52,6 +52,7 @@ Você pode utilizar a nossa imagem que está disponível no [Docker Hub](https:/
 | ZMQ_SOCKET_PORT | Porta do servidor ZMQ | 5556 |
 | READ_INDEX | Índice que será utilizada para as consultas de leitura na *Tangle Hornet*. | readIndex |
 | WRITE_INDEX | Índice que será utilizada para as escritas na *Tangle Hornet*. | writeIndex |
+| READ_MULTIPLE_INDEX | Índice que será utilizada para as consultas de leitura de múltiplas mensagens na *Tangle Hornet*. | readMultipleIndex |
 
 Após realizar o *build* da imagem ou utilizando a imagem disponibilizada no [Docker Hub](https://hub.docker.com/r/larsid/tangle-hornet-monitoring), basta utilizar os parâmetros acima.
 
@@ -72,6 +73,7 @@ docker run -it -e API_PORT=3000 -e NODE_URL=172.18.0.5 -e INDEX=my_index larsid/
 | -zspt | Porta do servidor ZMQ | 5556 |
 | -ridx | Índice que será utilizada para as consultas de leitura na *Tangle Hornet*. | readIndex |
 | -widx | Índice que será utilizada para as escritas na *Tangle Hornet*. | writeIndex |
+| -rmiidx | Índice que será utilizada para as consultas de leitura de múltiplas mensagens na *Tangle Hornet*. | readMultipleIndex |
 | -r | Monitoramento de leitura | None |
 | -w | Monitoramento de escrita | None |
 | -ni | Monitoramento das informações do nó da blockchain | None |

@@ -23,6 +23,10 @@ public class CLI {
     return getArgInList("-widx", args);
   }
 
+  public static Optional<String> getReadMultipleIndex(String... args) {
+    return getArgInList("-rmiidx", args);
+  }
+
   public static Optional<String> getZMQSocketProtocol(String... args) {
     return getArgInList("-zsp", args);
   }
