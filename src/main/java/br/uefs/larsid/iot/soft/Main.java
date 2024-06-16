@@ -154,7 +154,7 @@ public class Main {
       writeIndex =
         CLI.getWriteIndex(args).orElse(props.getProperty("writeIndex"));
       readMultipleIndex =
-        CLI.getWriteIndex(args).orElse(props.getProperty("readMultipleIndex"));
+        CLI.getReadMultipleIndex(args).orElse(props.getProperty("readMultipleIndex"));
 
       zmqSocketProtocol =
         CLI
