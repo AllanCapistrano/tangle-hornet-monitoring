@@ -78,6 +78,7 @@ docker run -it -e API_PORT=3000 -e NODE_URL=172.18.0.5 -e INDEX=my_index larsid/
 | -w | Monitoramento de escrita | None |
 | -ni | Monitoramento das informações do nó da blockchain | None |
 | -z | Monitoramento do ZMQ | None |
+| -rmi | Monitoramento de escrita com múltiplas mensagens | None |
 
 
 ###### Obs: Também é possível alterar essas configurações através do arquivo [tangle-hornet-monitoring.properties](./src/main/resources/br/uefs/larsid/iot/soft/tangle-hornet-monitoring.properties) ######
