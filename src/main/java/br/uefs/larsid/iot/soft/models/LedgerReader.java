@@ -41,6 +41,7 @@ public class LedgerReader implements Runnable {
   private String urlApi;
   private final boolean publishBeforeRead;
   private final String index;
+  private final String message;
 
   private static final Logger logger = Logger.getLogger(
     LedgerReader.class.getName()
@@ -61,6 +62,7 @@ public class LedgerReader implements Runnable {
     this.index = index;
     this.csvWriter = csvWriter;
     this.csvIndex = 0;
+    this.message = publishBeforeRead ? "read multiples" : "read" ;
 
     this.csvWriter.writeData(CSV_HEADER);
 
@@ -246,7 +248,7 @@ public class LedgerReader implements Runnable {
         long end = System.currentTimeMillis();
         long responseTime = end - start;
 
-        logger.info("API read operation response time (ms): " + responseTime + "\n");
+        logger.info("API " + this.message + " operation response time (ms): " + responseTime + "\n");
 
         if (this.csvWriter != null) {
           this.csvData[0] = String.valueOf(SLEEP / 1000 * this.csvIndex);
